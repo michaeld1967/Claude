@@ -134,7 +134,7 @@ def run_demo() -> None:
     for sku in skus:
         projector.add_sku(sku)
         print(f"  {sku.sku}: {sku.name}")
-        print(f"    Current inventory: {sku.current_inventory}, Monthly sales: {sku.monthly_sales}, Growth: {sku.growth_rate:.0%}")
+        print(f"    Inventory: {sku.current_inventory}, Current Sales: {sku.current_monthly_sales}/mo, Growth: {sku.growth_rate:.0%}")
 
     print(f"\nLoading {len(pos)} Purchase Orders...")
     for po in pos:
@@ -184,7 +184,7 @@ Examples:
 
 CSV Formats:
   SKUs (skus.csv):
-    sku,name,current_inventory,monthly_sales,growth_rate
+    sku,name,current_inventory,current_monthly_sales,growth_rate
     DOG-FOOD-001,Premium Dog Food,500,120,3%
 
   Purchase Orders (pos.csv):

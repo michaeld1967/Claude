@@ -39,12 +39,17 @@ python -m pet_inventory.main --skus skus.csv --pos pos.csv --months 6 --output p
 | sku | Unique product identifier | DOG-FOOD-001 |
 | name | Product name | Premium Dog Food 15lb |
 | current_inventory | Current stock on hand | 500 |
-| monthly_sales | Average monthly sales units | 120 |
+| current_monthly_sales | Current monthly sales (baseline demand) | 120 |
 | growth_rate | Monthly growth rate (optional) | 3% or 0.03 |
+
+The `current_monthly_sales` is your baseline demand. The `growth_rate` is applied each month:
+- Month 1: `current_monthly_sales × (1 + growth_rate)`
+- Month 2: `current_monthly_sales × (1 + growth_rate)²`
+- etc.
 
 Example `skus.csv`:
 ```csv
-sku,name,current_inventory,monthly_sales,growth_rate
+sku,name,current_inventory,current_monthly_sales,growth_rate
 DOG-FOOD-001,Premium Dog Food 15lb,500,120,3%
 CAT-FOOD-001,Premium Cat Food 10lb,400,100,2%
 DOG-TOY-001,Squeaky Ball Set,300,75,0%

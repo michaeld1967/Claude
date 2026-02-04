@@ -40,8 +40,8 @@ def load_skus_from_csv(filepath: str) -> list[SKU]:
     Expected columns:
     - sku: SKU identifier (required)
     - name: Product name (required)
-    - current_inventory: Current stock level (required)
-    - monthly_sales: Average monthly sales (required)
+    - current_inventory: Current stock on hand (required)
+    - current_monthly_sales: Current monthly sales rate - baseline demand (required)
     - growth_rate: Monthly growth rate, e.g., 0.05 or 5% (optional, default 0)
     """
     skus = []
@@ -54,7 +54,7 @@ def load_skus_from_csv(filepath: str) -> list[SKU]:
                 sku=row['sku'].strip(),
                 name=row['name'].strip(),
                 current_inventory=int(row['current_inventory']),
-                monthly_sales=float(row['monthly_sales']),
+                current_monthly_sales=float(row['current_monthly_sales']),
                 growth_rate=parse_float(row.get('growth_rate', '0')),
             )
             skus.append(sku)
@@ -142,6 +142,7 @@ def export_projections_to_csv(
 def generate_sample_skus() -> list[SKU]:
     """Generate sample SKU data for demo."""
     return [
+        # SKU(sku, name, current_inventory, current_monthly_sales, growth_rate)
         SKU("DOG-FOOD-001", "Premium Dog Food 15lb", 500, 120, 0.03),
         SKU("DOG-FOOD-002", "Puppy Formula 5lb", 200, 80, 0.05),
         SKU("CAT-FOOD-001", "Premium Cat Food 10lb", 400, 100, 0.02),
@@ -196,13 +197,13 @@ def create_sample_csv_files(directory: str = ".") -> tuple[str, str]:
     skus_path = os.path.join(directory, "sample_skus.csv")
     with open(skus_path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow(['sku', 'name', 'current_inventory', 'monthly_sales', 'growth_rate'])
+        writer.writerow(['sku', 'name', 'current_inventory', 'current_monthly_sales', 'growth_rate'])
         for sku in generate_sample_skus():
             writer.writerow([
                 sku.sku,
                 sku.name,
                 sku.current_inventory,
-                sku.monthly_sales,
+                sku.current_monthly_sales,
                 f"{sku.growth_rate:.0%}" if sku.growth_rate else "0%"
             ])
 

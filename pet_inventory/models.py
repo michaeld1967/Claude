@@ -11,12 +11,19 @@ class SKU:
     sku: str
     name: str
     current_inventory: int
-    monthly_sales: float  # Average monthly sales
+    current_monthly_sales: float  # Current baseline monthly sales (units/month)
     growth_rate: float = 0.0  # Monthly growth rate (e.g., 0.05 = 5%)
 
     def get_projected_sales(self, months_ahead: int) -> float:
-        """Calculate projected sales for a future month applying growth rate."""
-        return self.monthly_sales * ((1 + self.growth_rate) ** months_ahead)
+        """
+        Calculate projected sales for a future month.
+
+        Month 0 (current month): current_monthly_sales
+        Month 1: current_monthly_sales * (1 + growth_rate)
+        Month 2: current_monthly_sales * (1 + growth_rate)^2
+        etc.
+        """
+        return self.current_monthly_sales * ((1 + self.growth_rate) ** months_ahead)
 
 
 @dataclass
